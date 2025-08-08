@@ -1,52 +1,70 @@
-import { createElement, useState } from 'react';
-import style from './App.module.css'
+import { useState } from 'react';
+import styles from './App.module.css';
+import data from './data.json';
 
 const App = () => {
-	const [value, setValue] = useState('');
-	const [list, setList] = useState([])
-	const [error, setError] = useState('')
+	// Можно задать 2 состояния — steps и activeIndex
+	const [steps, setSteps] = useState(data)
+	const [activeIndex, setActiveIndex] = useState(0)
 
-	const errorText= <div className={style.error}>{error}</div>
-
-	function onInputButtonClick() {
-		const promptValue = prompt("Введите значение");
-		if (promptValue.length >= 3) {
-			setValue(promptValue)
-			setError('')
-		}
-		else {
-			setError('Введенное значение должно содержать минимум 3 символа')
-		}
+	// И определить 3 обработчика: Клик назад, Клик вперед, Начать сначала
+	function nextStep() {
+		setActiveIndex((prev) => prev + 1)
 	}
-	function onAddButtonClick() {
-		if (!~list.findIndex((v) => v.value === value)) {
-			setList((prev) => [...prev, {id:Date.now(), value}]);
-			setValue('');
-		} else {
-			setError('Данное значение уже есть в списке!')
-		}
+	function backStep() {
+		setActiveIndex((prev) => prev - 1)
+	}
+	function beginStart() {
+		setActiveIndex(0)
+	}
+	// И 2 переменных-флага — находимся ли мы на первом шаге, и находимся ли на последнем
+	const isFirst = activeIndex === 0
+	const isLast = activeIndex !== steps.length - 1
+
+	function getSteps() {
+		return steps.map((step, idx) => {
+			const isActive = idx === activeIndex;
+			const isDone = idx < activeIndex;
+			const className =
+				`${styles['steps-item']} ${isDone ? styles.done : ''} ${isActive ? styles.active : ''}`;
+			return <li className={className} key={step.id}>
+				<button className={styles['steps-item-button']} onClick={() => setActiveIndex(idx)}>{+step.id}</button>
+				{step.title}
+			</li>
+		})
 	}
 
-	function getList() {
-		if (!list.length) return <p className={style.noMarginText}>Нет добавленных элементов</p>
-		else return <ul className={style.list}>{list.map(({id, value}) => <li className={style.listItem} key={id}>{value}</li>)}</ul>
+	function getContent() {
+		return steps[activeIndex].content
 	}
 	return (
-		<div className={style.app}>
-			<h1 className={style.pageHeading}>Ввод значения</h1>
-			<p className={style.noMarginText}>
-				Текущее значение <code>value</code>: "<output className={style.currentValue}>{value}</output>"
-			</p>
-			{error && errorText}
-			<div className={style.buttonsContainer}>
-				<button className={style.button} onClick={onInputButtonClick}>Ввести новое</button>
-				<button className={style.button} disabled={!value} onClick={onAddButtonClick}>Добавить в список</button>
-			</div>
-			<div className={style.listContainer}>
-				<h2 className={style.listHeading}>Список:</h2>
-				{getList()}
+		<div className={styles.container}>
+			<div className={styles.card}>
+				<h1>Инструкция по готовке пельменей</h1>
+				<div className={styles.steps}>
+					<div className={styles['steps-content']}>
+						{getContent()}
+					</div>
+					<ul className={styles['steps-list']}>
+						{getSteps()}
+					</ul>
+					<div className={styles['buttons-container']}>
+						<button className={styles.button} onClick={backStep} disabled={isFirst}>Назад</button>
+						{
+							isLast ?
+								<button className={styles.button} onClick={nextStep}>
+									Далее
+								</button>
+								:
+								<button className={styles.button} onClick={beginStart}>
+									Начать заново
+								</button>
+						}
+					</div>
+				</div>
 			</div>
 		</div>
 	);
 };
+
 export default App
