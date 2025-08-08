@@ -1,38 +1,52 @@
 import { createElement, useState } from 'react';
-import reactLogo from './assets/react.svg';
-import viteLogo from '/vite.svg';
-import './App.css';
+import style from './App.module.css'
 
- const App = () => {
-	const [count, setCount] = useState(0);
-	const year = new Date().getFullYear();
-	
-	return createElement('div', null, [
-		createElement('div', null, [
-			createElement('a', { href: 'https://vite.dev', target: '_blank' }, [
-				createElement('img', {
-					src: viteLogo,
-					className: 'logo',
-					alt: 'Vite logo',
-				}),
-			]),
-			createElement('a', { href: 'https://react.dev', target: '_blank' }, [
-				createElement('img', {
-					src: reactLogo,
-					className: 'logo',
-					alt: 'Vite logo',
-				}),
-			]),
-		]),
-		createElement('h1', null, ['Vite + React']),
-		createElement('div', { className: 'card' }, [
-			createElement(
-				'button',
-				{ onClick: () => setCount((count) => count + 1) },
-				`count is ${count}`,
-			),
-		]),
-		createElement('p', { className: 'read-the-docs' }, year),
-	]);
+const App = () => {
+	const [value, setValue] = useState('');
+	const [list, setList] = useState([])
+	const [error, setError] = useState('')
+
+	const errorText= <div className={style.error}>{error}</div>
+
+	function onInputButtonClick() {
+		const promptValue = prompt("Введите значение");
+		if (promptValue.length >= 3) {
+			setValue(promptValue)
+			setError('')
+		}
+		else {
+			setError('Введенное значение должно содержать минимум 3 символа')
+		}
+	}
+	function onAddButtonClick() {
+		if (!~list.findIndex((v) => v.value === value)) {
+			setList((prev) => [...prev, {id:Date.now(), value}]);
+			setValue('');
+		} else {
+			setError('Данное значение уже есть в списке!')
+		}
+	}
+
+	function getList() {
+		if (!list.length) return <p className={style.noMarginText}>Нет добавленных элементов</p>
+		else return <ul className={style.list}>{list.map(({id, value}) => <li className={style.listItem} key={id}>{value}</li>)}</ul>
+	}
+	return (
+		<div className={style.app}>
+			<h1 className={style.pageHeading}>Ввод значения</h1>
+			<p className={style.noMarginText}>
+				Текущее значение <code>value</code>: "<output className={style.currentValue}>{value}</output>"
+			</p>
+			{error && errorText}
+			<div className={style.buttonsContainer}>
+				<button className={style.button} onClick={onInputButtonClick}>Ввести новое</button>
+				<button className={style.button} disabled={!value} onClick={onAddButtonClick}>Добавить в список</button>
+			</div>
+			<div className={style.listContainer}>
+				<h2 className={style.listHeading}>Список:</h2>
+				{getList()}
+			</div>
+		</div>
+	);
 };
 export default App
