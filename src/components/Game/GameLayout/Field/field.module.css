@@ -1,0 +1,31 @@
+.field {
+    display: grid;
+    grid-template-columns: repeat(3, 150px);
+    grid-template-rows: repeat(3, 150px)
+}
+.card {
+    border: 1px solid black;
+    display: flex;
+}
+.card:hover {
+    background-color: #d3d3d3;
+    cursor: pointer;
+}
+.card0::before {
+    content: 'O';
+    color: blue;
+}
+.cardX::before {
+    content: 'X';
+    color: red;
+}
+.cardX::before, .card0::before {
+    font-size: 50pt;
+    margin: auto;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-weight: 700;
+}
+.disabled {
+    pointer-events: none;
+    background-color: #d3d3d338;
+}
