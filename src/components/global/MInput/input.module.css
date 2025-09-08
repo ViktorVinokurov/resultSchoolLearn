@@ -1,0 +1,22 @@
+@reference "tailwindcss";
+.controller {
+	position: relative;
+	transition: all 0.3 ease-in-out;
+}
+.input {
+	@apply border border-indigo-500 rounded-md h-[45px] px-2 outline-none transition-colors duration-300;
+	@apply focus:border-violet-500; /* цвет бордера при фокусе */
+}
+
+.label {
+	@apply absolute left-[15px] top-[20%] text-indigo-500 transition-all duration-300;
+}
+
+/* когда инпут в фокусе (через родитель .controller) */
+.controller:focus-within .label {
+	@apply -top-2.5 text-[14px] bg-white/100;
+}
+
+.active .label {
+	@apply -top-2.5 text-[14px] bg-white;
+}
