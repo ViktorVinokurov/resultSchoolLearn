@@ -1,0 +1,26 @@
+:root {
+	--border-radius: 8px;
+}
+.btn {
+	line-height: calc(43px / 2);
+	position: relative;
+	padding: 12px 24px;
+	background: linear-gradient(90deg, #8a2be2, #b36af6,#c184f9); /* фон кнопки */
+	color: #fff; /* цвет текста */
+	border: none; /* внешней рамки нет */
+	cursor: pointer;
+	font-size: 16px;
+	text-align: center;
+	border-radius: var(--border-radius); /* радиус кнопки */
+}
+.btn::before {
+	content: '';
+	position: absolute;
+	border-radius: calc(var(--border-radius) - 5px);
+	top: 5px; /* отступ сверху */
+	left: 5px; /* отступ слева */
+	right: 5px; /* отступ справа */
+	bottom: 5px; /* отступ снизу */
+	border: 1px solid #fff; /* внутренняя белая рамка */
+	pointer-events: none; /* чтобы рамка не мешала клику */
+}
