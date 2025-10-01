@@ -16,14 +16,15 @@ export default class FirebaseDB {
 		update(ref(db, `${this._dbName}/${index}`), data);
 	}
 
-	changeData(cb) {
+	changeData(cb, id) {
         const unsubscribe = onValue(this._referenseDataBase, (snap) => {
             const value = snap.val()||[]
             const changeData = Object.entries(value).map(([id, values]) => ({
                 id,
                 ...values,
             }))
-            cb(changeData);
+			if (id) cb(changeData.find(d => d.id === id));
+            else cb(changeData);
           });
           return unsubscribe;
 	}

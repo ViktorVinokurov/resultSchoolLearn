@@ -24,3 +24,7 @@
 	border: 1px solid #fff; /* внутренняя белая рамка */
 	pointer-events: none; /* чтобы рамка не мешала клику */
 }
+.btn:disabled {
+	background: linear-gradient(90deg, #892be24d, #b26af655,#c084f94d); /* фон кнопки */
+	cursor: not-allowed;
+}
