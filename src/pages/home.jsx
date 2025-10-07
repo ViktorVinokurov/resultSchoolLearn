@@ -1,18 +1,19 @@
 import TextField from '@mui/material/TextField';
 import MButton from '../components/global/MButton';
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useState, useContext } from 'react';
 import ListTask from '../components/ListTask';
 import Sort from '@mui/icons-material/Sort';
 import Search from '@mui/icons-material/Search';
 import AddTask from '../components/addTask';
 import { useNavigate } from 'react-router-dom';
 import { GET_TASKS, SET_TASKS, UPDATE_TASKS } from '../service/api';
-
+import { TaskContext } from '../constext';
 const Home = () => {
 	const [search, setSearch] = useState('');
 	const [sort, setSort] = useState(false);
 	const [tasksList, setTasksList] = useState([]);
 	const navigate = useNavigate();
+	const setTheme = useContext(TaskContext);
 
 	const filterText = useMemo(() => {
 		const filter = tasksList.filter((t) => t.title.toLowerCase().includes(search));
@@ -40,6 +41,7 @@ const Home = () => {
 	}
 	return (
 		<div className="flex h-full w-full flex-col">
+			<MButton onClick={() => setTheme()}>Сменить тему</MButton>
 			<AddTask onAddTask={setTaskInList} />
 			<div className="mt-3 flex">
 				<TextField
@@ -57,11 +59,7 @@ const Home = () => {
 					<Sort style={{ transform: `rotate(${sort ? '180deg' : '0'})` }} />
 				</MButton>
 			</div>
-			<ListTask
-				lists={filterText}
-				toggleTask={toggleTask}
-				open={openTask}
-			/>
+			<ListTask lists={filterText} toggleTask={toggleTask} open={openTask} />
 		</div>
 	);
 };

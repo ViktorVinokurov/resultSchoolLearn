@@ -16,7 +16,9 @@ import ArrowBack from '@mui/icons-material/ArrowBack';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import { NavLink, Outlet, useNavigate, useLocation } from 'react-router-dom';
-
+import { TaskContext } from '../constext';
+import { ThemeProvider, createTheme } from '@mui/material/styles';
+import { useState } from 'react';
 const drawerWidth = 240;
 
 function BaseLayout(props) {
@@ -47,6 +49,17 @@ function BaseLayout(props) {
 			path: '/',
 		},
 	];
+	const [isLightTheme, setIsLightTheme] = useState(true);
+	
+	function changeTheme() {
+		setIsLightTheme((val) => !val)
+	}
+
+	const theme = createTheme({
+		palette: {
+			mode: isLightTheme ? 'light' : 'dark',
+		},
+	});
 
 	const drawer = (
 		<div>
@@ -73,85 +86,94 @@ function BaseLayout(props) {
 	const container = window !== undefined ? () => window().document.body : undefined;
 
 	return (
-		<Box sx={{ display: 'flex' }}>
-			<CssBaseline />
-			<AppBar
-				position="fixed"
-				className="color-wb"
-				sx={{
-					width: { sm: `calc(100% - ${drawerWidth}px)` },
-					ml: { sm: `${drawerWidth}px` },
-				}}
-			>
-				<Toolbar>
-					<IconButton
-						color="inherit"
-						aria-label="open drawer"
-						edge="start"
-						onClick={handleDrawerToggle}
-						sx={{ mr: 2, display: { sm: 'none' } }}
+		<ThemeProvider theme={theme}>
+			<TaskContext.Provider value={changeTheme}>
+				<Box sx={{ display: 'flex' }}>
+					<CssBaseline />
+					<AppBar
+						position="fixed"
+						className="color-wb"
+						sx={{
+							width: { sm: `calc(100% - ${drawerWidth}px)` },
+							ml: { sm: `${drawerWidth}px` },
+						}}
 					>
-						<MenuIcon />
-					</IconButton>
-					{pathname !== '/' && (
-						<IconButton onClick={() => navigate('/')} color="inherit">
-							<ArrowBack></ArrowBack>
-						</IconButton>
-					)}
-					<Typography variant="h6" noWrap component="div">
-						ToDo-шка
-					</Typography>
-				</Toolbar>
-			</AppBar>
-			<Box
-				component="nav"
-				sx={{ width: { sm: drawerWidth }, flexShrink: { sm: 0 } }}
-				aria-label="mailbox folders"
-			>
-				{/* The implementation can be swapped with js to avoid SEO duplication of links. */}
-				<Drawer
-					container={container}
-					variant="temporary"
-					open={mobileOpen}
-					onTransitionEnd={handleDrawerTransitionEnd}
-					onClose={handleDrawerClose}
-					sx={{
-						display: { xs: 'block', sm: 'none' },
-						'& .MuiDrawer-paper': {
-							boxSizing: 'border-box',
-							width: drawerWidth,
-						},
-					}}
-					slotProps={{
-						root: {
-							keepMounted: true, // Better open performance on mobile.
-						},
-					}}
-				>
-					{drawer}
-				</Drawer>
-				<Drawer
-					variant="permanent"
-					sx={{
-						display: { xs: 'none', sm: 'block' },
-						'& .MuiDrawer-paper': {
-							boxSizing: 'border-box',
-							width: drawerWidth,
-						},
-					}}
-					open
-				>
-					{drawer}
-				</Drawer>
-			</Box>
-			<Box
-				component="main"
-				sx={{ flexGrow: 1, p: 3, width: { sm: `calc(100% - ${drawerWidth}px)` } }}
-			>
-				<Toolbar />
-				<Outlet></Outlet>
-			</Box>
-		</Box>
+						<Toolbar>
+							<IconButton
+								color="inherit"
+								aria-label="open drawer"
+								edge="start"
+								onClick={handleDrawerToggle}
+								sx={{ mr: 2, display: { sm: 'none' } }}
+							>
+								<MenuIcon />
+							</IconButton>
+							{pathname !== '/' && (
+								<IconButton onClick={() => navigate('/')} color="inherit">
+									<ArrowBack></ArrowBack>
+								</IconButton>
+							)}
+							<Typography variant="h6" noWrap component="div">
+								ToDo-шка
+							</Typography>
+						</Toolbar>
+					</AppBar>
+					<Box
+						component="nav"
+						sx={{ width: { sm: drawerWidth }, flexShrink: { sm: 0 } }}
+						aria-label="mailbox folders"
+					>
+						{/* The implementation can be swapped with js to avoid SEO duplication of links. */}
+						<Drawer
+							container={container}
+							variant="temporary"
+							open={mobileOpen}
+							onTransitionEnd={handleDrawerTransitionEnd}
+							onClose={handleDrawerClose}
+							sx={{
+								display: { xs: 'block', sm: 'none' },
+								'& .MuiDrawer-paper': {
+									boxSizing: 'border-box',
+									width: drawerWidth,
+								},
+							}}
+							slotProps={{
+								root: {
+									keepMounted: true, // Better open performance on mobile.
+								},
+							}}
+						>
+							{drawer}
+						</Drawer>
+						<Drawer
+							variant="permanent"
+							sx={{
+								display: { xs: 'none', sm: 'block' },
+								'& .MuiDrawer-paper': {
+									boxSizing: 'border-box',
+									width: drawerWidth,
+								},
+							}}
+							open
+						>
+							{drawer}
+						</Drawer>
+					</Box>
+					<Box
+						component="main"
+						sx={{
+							flexGrow: 1,
+							p: 3,
+							width: { sm: `calc(100% - ${drawerWidth}px)` },
+						}}
+					>
+						<Toolbar />
+
+						<Outlet></Outlet>
+					</Box>
+				</Box>
+			</TaskContext.Provider>
+		</ThemeProvider>
 	);
 }
 
