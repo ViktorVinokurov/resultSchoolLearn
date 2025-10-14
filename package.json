@@ -17,6 +17,7 @@
     "@hookform/resolvers": "^5.2.1",
     "@mui/icons-material": "^7.3.2",
     "@mui/material": "^7.3.2",
+    "@react-router/dev": "^7.9.3",
     "@tailwindcss/vite": "^4.1.13",
     "axios": "^1.12.2",
     "firebase": "^12.3.0",
@@ -24,7 +25,9 @@
     "react": "^19.1.1",
     "react-dom": "^19.1.1",
     "react-hook-form": "^7.62.0",
+    "react-redux": "^9.2.0",
     "react-router-dom": "^7.9.3",
+    "redux": "^5.0.1",
     "tailwindcss": "^4.1.13",
     "yap": "^0.0.2",
     "yup": "^1.7.0"

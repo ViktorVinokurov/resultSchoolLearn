@@ -1,0 +1,42 @@
+.info {
+	display: flex;
+	align-items: center;
+	flex-direction: column;
+	width: 50%;
+	border: 1px solid #d3d3d3;
+	padding: 0.5rem;
+}
+.info span {
+	font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+	font-size: 16pt;
+	color: darkgrey;
+	display: flex;
+	align-items: center;
+	justify-content: space-around;
+	width: 10%;
+	text-transform: uppercase;
+}
+.info b {
+	font-family: Verdana, Geneva, Tahoma, sans-serif;
+	font-size: 20pt;
+	font-weight: 700;
+	color: gray;
+}
+.button {
+	height: 36px;
+	background: #d3d3d300;
+	border: 1px solid #d3d3d3;
+	border-radius: 5px;
+	font-size: medium;
+	font-weight: 700;
+	color: #9b9b9b;
+	transition: background 0.3s ease-in-out;
+}
+.button:hover {
+	cursor: pointer;
+	background: #d3d3d3;
+}
+.button:active {
+	background: #a0a0a0;
+	color: rgb(234, 234, 234);
+}

@@ -15,12 +15,12 @@
     {
       "id": "e2dd",
       "title": "task random one",
-      "finaly": false
+      "finaly": true
     },
     {
       "id": "8520",
       "title": "task random two",
-      "finaly": false
+      "finaly": true
     },
     {
       "id": "4e96",

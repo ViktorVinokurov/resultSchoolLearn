@@ -1,22 +1,8 @@
-import { Routes, Route } from 'react-router-dom';
-import Home from './pages/home';
-import Task from './pages/task';
-import NotFound from './pages/404';
-import BaseLayout from './layouts/BaseLayout';
-
+import Game from './components/Game';
+import store from './store';
+import { Provider } from 'react-redux';
 const App = () => {
-	return (
-		<div>
-			<div>Sait Random</div>
-			<Routes>
-				<Route element={<BaseLayout />}>
-					<Route index element={<Home />} />
-					<Route path="task/:id" element={<Task />} />
-					<Route path="*" element={<NotFound />} />
-				</Route>
-			</Routes>
-		</div>
-	);
+	return <Provider store={store}><Game /></Provider>;
 };
 
 export default App;
