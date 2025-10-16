@@ -1,0 +1,5 @@
+@reference "tailwindcss";
+.form {
+	@apply grid gap-4 m-auto;
+	padding: 10px;
+}
