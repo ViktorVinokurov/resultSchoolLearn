@@ -1,9 +1,12 @@
-import { RouterProvider } from 'react-router-dom';
-import { router } from './routes';
-import store from './store/store';
+import Game from './components/Game';
+import store from './store';
 import { Provider } from 'react-redux';
-const App = () => {
-	return <Provider store={store}><RouterProvider router={router} /></Provider>;
-};
+import React from 'react';
+
+class App extends React.Component {
+	render() {
+		return <Provider store={store}><Game /></Provider>
+	}
+}
 
 export default App;
